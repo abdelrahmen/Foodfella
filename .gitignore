@@ -1,0 +1,49 @@
+# Ignore compiled binaries and build output
+bin/
+obj/
+*.suo
+*.user
+*.sln.docstates
+
+# Ignore Visual Studio files
+.vscode/
+*.suo
+*.user
+*.sln.docstates
+*.suo
+*.user
+*.sln.docstates
+
+# Ignore project-specific files
+Foodfella.API/appsettings.json
+Foodfella.API/appsettings.Development.json
+Foodfella.API/bin/
+
+# Ignore NuGet packages
+packages/
+*.nupkg
+*.paket.restore
+paket-files/
+paket-files-cache/
+
+# Ignore user-specific files and settings
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore logs and other runtime data
+logs/
+*.log
+
+# Ignore database files
+*.mdf
+*.ldf
+
+# Ignore Visual Studio cache and settings folders
+.vscode/
+.vs/
+.vs2017/
+.vs2019/
+.vs2022/
+.vs2023/
