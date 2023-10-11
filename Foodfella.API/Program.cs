@@ -1,5 +1,7 @@
+using Foodfella.Core.Models;
 using Foodfella.EF;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -26,6 +28,24 @@ namespace Foodfella.API
 
 			builder.Host.UseSerilog();
 
+			//EF Config
+			var connectionString = config.GetConnectionString("local");
+
+			builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
+				connectionString
+				));
+
+			//identity config
+			builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
+				options =>
+				{
+					options.Password.RequireNonAlphanumeric = false;
+					options.Password.RequireDigit = false;
+					options.Password.RequireLowercase = false;
+					options.Password.RequireUppercase = false;
+				}).AddEntityFrameworkStores<AppDbContext>();
+
+
 			//JWT Config
 			builder.Services.AddAuthentication(o =>
 			{
@@ -47,13 +67,6 @@ namespace Foodfella.API
 				};
 			});
 
-			//EF Config
-			var connectionString = config.GetConnectionString("local");
-
-			builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
-				connectionString,
-				c => c.MigrationsAssembly(typeof(AppDbContext).FullName)
-				));
 
 			builder.Services.AddControllers();
 
