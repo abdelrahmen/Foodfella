@@ -47,3 +47,6 @@ logs/
 .vs2019/
 .vs2022/
 .vs2023/
+
+# Ignore xUnit test output
+TestResults/
