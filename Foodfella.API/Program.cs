@@ -1,5 +1,7 @@
+using Foodfella.Core.Interfaces;
 using Foodfella.Core.Models;
 using Foodfella.EF;
+using Foodfella.EF.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +36,8 @@ namespace Foodfella.API
 			builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
 				connectionString
 				));
+
+			builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 			//identity config
 			builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
