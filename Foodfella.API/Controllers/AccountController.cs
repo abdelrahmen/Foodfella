@@ -1,5 +1,5 @@
-﻿using Foodfella.Core.Models;
-using Medical_Appointments_API.DTO;
+﻿using Foodfella.Core.DTO;
+using Foodfella.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Medical_Appointments_API.Controllers
+namespace Foodfella.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]

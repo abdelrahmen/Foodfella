@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Medical_Appointments_API.DTO
+namespace Foodfella.Core.DTO
 {
     public class RegisterDTO
     {
