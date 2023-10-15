@@ -29,6 +29,11 @@ namespace Foodfella.EF.Repositories
 
 		public IEnumerable<T> GetAll() => context.Set<T>().ToList();
 
+		public IEnumerable<T> GetPaged(int page, int pageSize) => context.Set<T>()
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToList();
+
 		public async Task<IEnumerable<T>> GetAllAsync() => await context.Set<T>().ToListAsync();
 
 		public T GetById(int id) => context.Set<T>().Find(id);
