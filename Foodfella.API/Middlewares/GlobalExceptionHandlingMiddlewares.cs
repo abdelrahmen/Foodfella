@@ -1,7 +1,7 @@
 ﻿using Foodfella.Core.Models;
 using System.Text.Json;
 
-namespace Foodfella.API.Extentions
+namespace Foodfella.API.Middlewares
 {
 	public class GlobalExceptionHandlingMiddleware : IMiddleware
 	{
