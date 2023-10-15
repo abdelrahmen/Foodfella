@@ -20,8 +20,9 @@ namespace Foodfella.Core.Interfaces
 		IEnumerable<T> Find(Func<T, bool> predicate);
 		Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
 		IEnumerable<T> GetAll();
-		IEnumerable<T> GetPaged(int page, int pageSize);
 		Task<IEnumerable<T>> GetAllAsync();
+		IEnumerable<T> GetPaged(int page, int pageSize);
+		Task<IEnumerable<T>> GetPagedAsync(int page, int pageSize);
 
 		// Update
 		void Update(T entity);
