@@ -27,6 +27,22 @@ namespace Foodfella.EF.Repositories
 
 		public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate) => await context.Set<T>().Where(predicate).ToListAsync();
 
+		public IEnumerable<T> FindPaged(Func<T, bool> predicate, int page, int pageSize)
+		=> context.Set<T>()
+				.Where(predicate)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToList();
+
+
+		public async Task<IEnumerable<T>> FindPagedAsync(Expression<Func<T, bool>> predicate, int page, int pageSize)
+		=> await context.Set<T>()
+				.Where(predicate)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToListAsync();
+
+
 		public IEnumerable<T> GetAll() => context.Set<T>().ToList();
 
 
