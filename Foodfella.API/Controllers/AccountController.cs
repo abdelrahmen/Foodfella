@@ -29,8 +29,6 @@ namespace Foodfella.Controllers
 			this.config = configuration;
 		}
 
-
-
 		[HttpPost("register")]
 		public async Task<IActionResult> Register(RegisterDTO model)
 		{
@@ -54,6 +52,33 @@ namespace Foodfella.Controllers
 			}
 			return BadRequest(ModelState);
 		}
+
+		[HttpPost("register-admin")]
+		[Authorize(Roles = "SuperAdmin")] 
+		public async Task<IActionResult> RegisterAdmin(RegisterDTO model)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = new ApplicationUser
+				{
+					UserName = model.UserName,
+					Email = model.Email,
+					FullName = model.FullName
+				};
+
+				var result = await _userManager.CreateAsync(user, model.Password);
+
+				if (result.Succeeded)
+				{
+					// Assign the "Admin" role to the newly registered user
+					await _userManager.AddToRoleAsync(user, "Admin");
+					return Ok("Admin registration successful");
+				}
+				return BadRequest(result.Errors.Select(e=>e.Description));
+			}
+			return BadRequest(ModelState);
+		}
+
 
 		[HttpPost("login")]
 		public async Task<IActionResult> Login(LoginDTO model)
