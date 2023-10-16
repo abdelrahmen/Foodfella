@@ -1,6 +1,7 @@
 ﻿using Foodfella.Core.DTOs;
 using Foodfella.Core.Interfaces;
 using Foodfella.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,6 +73,7 @@ namespace Foodfella.API.Controllers
 
 		// POST: api/restaurants
 		[HttpPost]
+		[Authorize(Roles ="SuperAdmin,Admin")]
 		public async Task<IActionResult> Post([FromBody] RestaurantCreateDTO restaurantDTO)
 		{
 			if (ModelState.IsValid)
@@ -97,6 +99,7 @@ namespace Foodfella.API.Controllers
 
 		// PUT: api/restaurants/{id}
 		[HttpPut("{id}")]
+		[Authorize(Roles = "SuperAdmin,Admin")]
 		public async Task<IActionResult> PutAsync(int id, [FromBody] RestaurantUpdateDTO restaurantDTO)
 		{
 			var existingRestaurant = await _unitOfWork.Restaurants.GetByIdAsync(id);
@@ -116,6 +119,7 @@ namespace Foodfella.API.Controllers
 
 		// DELETE: api/restaurants/{id}
 		[HttpDelete("{id}")]
+		[Authorize(Roles = "SuperAdmin,Admin")]
 		public async Task<IActionResult> DeleteAsync(int id)
 		{
 			var restaurant = await _unitOfWork.Restaurants.GetByIdAsync(id);
