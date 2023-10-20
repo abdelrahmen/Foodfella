@@ -76,7 +76,7 @@ namespace Foodfella.API.Controllers
 
 				var createdMenuItemDTO = MenuDTO.FromMenuItem(menuItem);
 
-				return Created($"/api/menus/{menuItem.Id}", createdMenuItemDTO);
+				return CreatedAtAction($"/api/menus/{menuItem.Id}", createdMenuItemDTO);
 			}
 
 			return BadRequest(ModelState);
