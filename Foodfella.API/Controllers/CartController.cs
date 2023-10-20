@@ -100,6 +100,7 @@ namespace Foodfella.API.Controllers
 
 		// PUT: api/cart/{id}
 		[HttpPut("{id}")]
+		[Authorize]
 		public IActionResult Put(int id, [FromBody] CartItemUpdateDTO cartItemDTO)
 		{
 			if (cartItemDTO == null)
@@ -132,6 +133,7 @@ namespace Foodfella.API.Controllers
 
 		// DELETE: api/cart/{id}
 		[HttpDelete("{id}")]
+		[Authorize]
 		public IActionResult Delete(int id)
 		{
 			var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -156,6 +158,7 @@ namespace Foodfella.API.Controllers
 
 		// DELETE: api/cart/delete-all
 		[HttpDelete("delete-all")]
+		[Authorize]
 		public IActionResult DeleteAll()
 		{
 			var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
