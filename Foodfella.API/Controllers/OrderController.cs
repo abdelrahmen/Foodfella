@@ -1,5 +1,6 @@
 ﻿using Foodfella.Core.DTOs;
 using Foodfella.Core.Interfaces;
+using Foodfella.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +48,74 @@ namespace Foodfella.API.Controllers
 
 			return Ok(orderDetailsDTO);
 		}
+
+		[HttpPost]
+		[Authorize]
+		public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDTO orderDTO)
+		{
+			try
+			{
+				var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+				using (var transaction = unitOfWork.StartTransaction())
+				{
+					// Create a new order
+					var order = new Order
+					{
+						UserId = userId,
+						OrderDate = DateTime.Now,
+						PaymentMethod = orderDTO.PaymentMethod,
+						PickupAddress = orderDTO.PickupAddress,
+						Status = "Pending",
+					};
+
+					await unitOfWork.Orders.AddAsync(order);
+
+					// Create order details for each cart item
+					foreach (var cartItemDTO in orderDTO.CartItems)
+					{
+						// Retrieve the corresponding menu item
+						var menuItem = await unitOfWork.MenuItems.GetByIdAsync(cartItemDTO.MenuItemId);
+
+						if (menuItem == null)
+						{
+							// Handle invalid menu item ID
+							transaction.Rollback();
+							return BadRequest($"Invalid menu item ID: {cartItemDTO.MenuItemId}");
+						}
+
+						// Create an order detail
+						var orderDetail = new OrderDetail
+						{
+							OrderId = order.Id,
+							MenuItemId = menuItem.Id,
+							Quantity = cartItemDTO.Quantity,
+							Price = menuItem.Price,
+						};
+
+						await unitOfWork.OrderDetails.AddAsync(orderDetail);
+
+						// Remove the cart item from the user's cart
+						var cartItem = await unitOfWork.CartItems.FindAsync(c => c.UserId == userId && c.MenuItemId == cartItemDTO.MenuItemId);
+
+						if (cartItem.Any())
+						{
+							unitOfWork.CartItems.Remove(cartItem.First());
+						}
+					}
+
+					unitOfWork.Complete();
+					transaction.Commit();
+
+					return Created($"/api/order/{order.Id}", OrderDTO.FromOrder(order));
+				}
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, "An error occurred while processing the order.");
+			}
+		}
+
 
 	}
 }
