@@ -30,12 +30,13 @@ namespace Foodfella.EF.Repositories
 		public IBaseRepository<Order> Orders { get; private set; }
 		public IBaseRepository<OrderDetail> OrderDetails { get; private set; }
 
-		public void StartTransaction()
+		public IDbContextTransaction StartTransaction()
 		{
 			if (transaction == null)
 			{
 				transaction = context.Database.BeginTransaction();
 			}
+			return transaction;
 		}
 
 		public void CommitTransaction()
