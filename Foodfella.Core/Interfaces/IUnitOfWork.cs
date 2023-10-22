@@ -1,4 +1,5 @@
 ﻿using Foodfella.Core.Models;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,13 @@ namespace Foodfella.Core.Interfaces
 		IBaseRepository<OrderDetail> OrderDetails { get; }
 
 		int Complete();
+
+		IDbContextTransaction StartTransaction();
+
+		void CommitTransaction();
+
+		void RollbackTransaction();
+
+		void Dispose();
 	}
 }
