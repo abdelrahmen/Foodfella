@@ -26,6 +26,10 @@ namespace Foodfella.Core.Models
 		[MaxLength(200)]
 		public string PickupAddress { get; set; }
 
+		[Required]
+		[MaxLength(15)]
+		public string Status { get; set; }
+
 		[ForeignKey(nameof(UserId))]
 		public ApplicationUser User { get; set; }
 
