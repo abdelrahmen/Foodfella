@@ -27,7 +27,7 @@ namespace Foodfella.API.Controllers
 			var orders = await unitOfWork.Orders.GetAllAsync();
 			if (!orders.Any())
 			{
-
+				return NotFound("No Orders");
 			}
 			var orderDTOs = orders.Select(o => OrderDTO.FromOrder(o));
 			return Ok(orderDTOs);
@@ -141,6 +141,23 @@ namespace Foodfella.API.Controllers
 			}
 		}
 
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> CancelOrderAsync(int id)
+		{
+			var order = await unitOfWork.Orders.GetByIdAsync(id);
 
+			if (order == null)
+			{
+				return NotFound("Order Not Found");
+			}
+
+            if (order.Status.Equals("Pending"))
+            {
+				order.Status = "Canceled";
+				unitOfWork.Complete();
+            }
+
+			return BadRequest("Order Cannot Be Canceled");
+        }
 	}
 }
