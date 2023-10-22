@@ -59,6 +59,16 @@ namespace Foodfella.API.Controllers
 			{
 				return NotFound("No Order Details For This Id");
 			}
+
+			if (!User.IsInRole("Admin") || !User.IsInRole("SuperAdmin"))
+			{
+				var order = unitOfWork.Orders.GetById(id);
+				if (order.UserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+				{
+					return Unauthorized("You are Not Authorized to View Detaul Of This Order");
+				}
+			}
+
 			var orderDetailsDTO = orderDetails.Select(od => OrderDetailsDTO.FromOrderDetail(od));
 
 			return Ok(orderDetailsDTO);
