@@ -27,6 +27,10 @@ namespace Foodfella.Core.DTOs
 		[MaxLength(200)]
 		public string PickupAddress { get; set; }
 
+		[Required]
+		[MaxLength(15)]
+		public string Status { get; set; }
+
 		public static OrderDTO FromOrder(Order order) => new OrderDTO
 		{
 			Id = order.Id,
@@ -34,6 +38,7 @@ namespace Foodfella.Core.DTOs
 			OrderDate = order.OrderDate,
 			PaymentMethod = order.PaymentMethod,
 			PickupAddress = order.PickupAddress,
+			Status = order.Status,
 		};
 	}
 }
