@@ -18,6 +18,21 @@ namespace Foodfella.API.Controllers
 			this.unitOfWork = unitOfWork;
 		}
 
+
+
+		[HttpGet("all")]
+		[Authorize(Roles = "Admin,SuperAdmin")]
+		public async Task<IActionResult> GetAll()
+		{
+			var orders = await unitOfWork.Orders.GetAllAsync();
+			if (!orders.Any())
+			{
+
+			}
+			var orderDTOs = orders.Select(o => OrderDTO.FromOrder(o));
+			return Ok(orderDTOs);
+		}
+
 		[HttpGet]
 		[Authorize]
 		public async Task<IActionResult> GetUserOrders()
