@@ -34,6 +34,7 @@ namespace Foodfella.EF
 		{
 			new IdentityRole { Id = "1", Name = "SuperAdmin", NormalizedName = "SUPERADMIN" },
 			new IdentityRole { Id = "2", Name = "Admin", NormalizedName = "ADMIN" },
+			new IdentityRole { Id = "3", Name = "Customer", NormalizedName = "CUSTOMER" },
 		};
 
 		private ApplicationUser SeedSuperAdmin()
