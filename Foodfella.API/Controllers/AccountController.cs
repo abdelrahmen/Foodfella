@@ -29,6 +29,7 @@ namespace Foodfella.Controllers
 			this.config = configuration;
 		}
 
+
 		[HttpPost("register")]
 		public async Task<IActionResult> Register(RegisterDTO model)
 		{
