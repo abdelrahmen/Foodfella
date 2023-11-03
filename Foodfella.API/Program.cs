@@ -1,3 +1,4 @@
+using Foodfella.API.Middlewares;
 using Foodfella.Core.Interfaces;
 using Foodfella.Core.Models;
 using Foodfella.EF;
@@ -29,6 +30,9 @@ namespace Foodfella.API
 				.CreateLogger();
 
 			builder.Host.UseSerilog();
+
+			//global error handling service
+			builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
 			//EF Config
 			var connectionString = config.GetConnectionString("local");
@@ -91,6 +95,7 @@ namespace Foodfella.API
 
 			app.UseAuthorization();
 
+			app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 			app.MapControllers();
 
